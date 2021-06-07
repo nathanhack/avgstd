@@ -2,17 +2,21 @@ package avgstd
 
 import (
 	"fmt"
+	"math"
 )
 
 //AvgStd holds the values for calculating average and variances
 type AvgStd struct {
-	Count int
+	Count uint64
 	Mean  float64
 	S     float64
 }
 
 //Update updates the state with a new value. Essentially adding a new value to be included in the calculations.
 func (as *AvgStd) Update(value float64) {
+	if as.Count == math.MaxInt64 {
+		panic("update limit exceeded")
+	}
 	as.Count++
 	delta := value - as.Mean
 	as.Mean += delta / float64(as.Count)
@@ -41,7 +45,7 @@ func (as *AvgStd) SampledVariance() float64 {
 }
 
 //Samples returns the current number of samples included in the calculations.
-func (as *AvgStd) Samples() int {
+func (as *AvgStd) Samples() uint64 {
 	return as.Count
 }
 
