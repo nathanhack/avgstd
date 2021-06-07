@@ -32,7 +32,7 @@ func TestAvgStd(t *testing.T) {
 			if a.SampledVariance() != test.sampleVariance {
 				t.Fatalf("expected %v but found %v", test.sampleVariance, a.SampledVariance())
 			}
-			if a.Samples() != len(test.inputs) {
+			if a.Samples() != uint64(len(test.inputs)) {
 				t.Fatalf("expected %v but found %v", len(test.inputs), a.Samples())
 			}
 		})
