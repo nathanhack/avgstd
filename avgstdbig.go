@@ -57,7 +57,7 @@ func (as *AvgStdBig) SampledVariance() *big.Float {
 	if as.Count == nil || as.S == nil {
 		as.Reset()
 	}
-	if as.Count.Cmp(big.NewInt(2)) == 0 {
+	if as.Count.Cmp(big.NewInt(2)) <= 0 {
 		return big.NewFloat(0)
 	}
 	t := new(big.Float).SetInt(as.Count)
