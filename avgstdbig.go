@@ -33,11 +33,18 @@ func (as *AvgStdBig) Update(value *big.Float) {
 
 //Avg returns the current mean or average value
 func (as *AvgStdBig) Avg() *big.Float {
+	if as.Mean == nil {
+		as.Reset()
+	}
 	return new(big.Float).Copy(as.Mean)
 }
 
 //Variance returns the current population variance.
 func (as *AvgStdBig) Variance() *big.Float {
+	if as.Count == nil || as.S == nil {
+		as.Reset()
+	}
+
 	if as.Count.Cmp(zero) == 0 {
 		return big.NewFloat(0)
 	}
@@ -47,6 +54,9 @@ func (as *AvgStdBig) Variance() *big.Float {
 
 //SampledVariance returns the current sampled variance.
 func (as *AvgStdBig) SampledVariance() *big.Float {
+	if as.Count == nil || as.S == nil {
+		as.Reset()
+	}
 	if as.Count.Cmp(big.NewInt(2)) == 0 {
 		return big.NewFloat(0)
 	}
@@ -57,6 +67,9 @@ func (as *AvgStdBig) SampledVariance() *big.Float {
 
 //Samples returns the current number of samples included in the calculations.
 func (as *AvgStdBig) Samples() *big.Int {
+	if as.Count == nil {
+		as.Reset()
+	}
 	return new(big.Int).Set(as.Count)
 }
 
